@@ -70,11 +70,8 @@ CREATE TABLE clientes_has_endereco (
   n_casa VARCHAR(45) NOT NULL,
   complemento VARCHAR(45) NOT NULL,
   PRIMARY KEY (cep_cliente, cpf_clientes),
-  CONSTRAINT fk_clientes_has_endereco_clientes
     FOREIGN KEY (cpf_clientes)
     REFERENCES clientes (cpf)
-   
-  CONSTRAINT fk_clientes_has_endereco_endereco1
     FOREIGN KEY (cep_cliente)
     REFERENCES endereco (cep));
 
