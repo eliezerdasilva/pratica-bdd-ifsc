@@ -1,5 +1,9 @@
+
+
 create database clinica;
 use clinica;
+
+DROP TABLE IF EXISTS cliente;
 
 create table cliente(
     cpf int(12) NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -29,7 +33,7 @@ create table produto(
     foreign key (cnpj) references fornecedor(cnpj),
     peso_prod float not null,
     formato varchar(45) not null,
-    dataCompra date not null,
+    dataCompra date not null
  
 );
 
@@ -78,9 +82,9 @@ VALUES
 (22222222,"rua Capitao do povo", "Democracia","guiana holandes"),
 (56464645,"rua Comunidade São João da Capela", "comunidade do alemão","porto rico"),
 (66666666,"rua Viver é alegria", "Alegria","lemen"),
-(89228922,"rua Silvio santos", "Jequiti","haiti");
+(89228922,"rua Silvio santos", "Jequiti","haiti"),
+-- para fornecedor
 
---------Para o fornecedor
 (56469466,"rua Esperança amada", "Jequiti","Uruguai"),
 (44864651,"rua Esperança abalada", "Santos","Uruguai"),
 (98562374,"rua Esperança morta", "Manuel Machado","Uruguai"),
@@ -94,12 +98,12 @@ VALUES
 
 
 
-INSERT INTO fornecedor (cnpj, e_mail_empresa, nome_funcionario, )
+INSERT INTO fornecedor (cnpj, e_mail_empresa, nome_funcionario )
 VALUES 
 (13131313,"AmoMeuEmprego.@empregaBrasil","Irineu"),
 (22222222,"AmoDesing.@DesingBrasil","Tonho"),
 (13165468,"AdorodarAula.@AulaBrasil","Liamar"),
-(26598485"BBBninhavida.@BBBrasil","Rafaela"),
+(26598485,"Bminhavida.@BBBrasil","Rafaela"),
 (13548458,"favelaVenceu.@BBBrasil","Calila de Lucas"),
 (54658436,"humorNegro.@BBBrasil","Nego di"),
 (58438545,"oMelhordeTodos.@favelaBrasil","Poze"),
@@ -108,7 +112,7 @@ VALUES
 (21561454,"vivaNordeste.@cactos","Julieta");
 
 
-INSERT INTO produto (id_prduto, cnpj, peso_prod, formato, dataCompra)
+INSERT INTO produto (id_produto, cnpj, peso_prod, formato, dataCompra)
 VALUES (231321, 13131313, 24, "quadrado", "85/56/2006"),
 (545482, 13131313, 24, "quadrado", "05/12/2005"),
 (646566, 22222222, 3, "quadrado", "04/10/1996"),
@@ -156,7 +160,7 @@ VALUES
 (95,"Empresa Cinza",22222222,44864651),
 (80, "Empresa aos fundo",13165468,44864651),
 (50,"Bater palma na casa da frente",26598485,98562374),
-(5564,"",13548458,54364684,),
+(5564,"",13548458,54364684),
 (156, "Senha para entrar é 2025 ",54658436,64854351),
 (88, " Residencial",58438545,52477568),
 (5451,"se acaso nao estiver ninguem entregar na casa do lado",36435845,55783643),
@@ -168,23 +172,69 @@ VALUES
 
 -- update
 
-UPDATE cliente
+UPDATE usuario
 SET nome = 'bruna'
-WHERE cpf = 12345678996
+WHERE cpf = 12345678996;
+
+UPDATE usuario
+SET nome = 'Zé vaqueiro'
+WHERE cpf = 12345678996;
+
+UPDATE usuario
+SET nome = 'Gabriel'
+WHERE cpf = 12345678996;
+
+UPDATE usuario
+SET nome = 'Valmor'
+WHERE cpf = 12345678996;
+
+
+UPDATE usuario
+SET nome = 'Deodoro'
+WHERE cpf = 12345678996;
+
+UPDATE usuario
+SET nome = 'Jair'
+WHERE cpf = 12345678996;
+
+UPDATE usuario
+SET nome = 'Luis'
+WHERE cpf = 12345678996;
 
 
 
 
 
--- delete
 DELETE FROM cliente WHERE cpf = 56454354354;
-DELETE FROM endereco WHERE cpf = 56454354354;
-DELETE FROM produto WHERE cpf = 56454354354;
-DELETE FROM fornecedor WHERE cpf = 56454354354;
-DELETE FROM encomenda WHERE cpf = 56454354354;
-DELETE FROM cliente WHERE cpf = 56454354354;
+
+DELETE FROM endereco WHERE cep = 45642131;
+
+DELETE FROM produto WHERE id_produto =231321;
+
+DELETE FROM fornecedor WHERE cnpj = 13131313;
+
+DELETE FROM encomenda WHERE id_encomenda = 5153135;
+
+
 
 -- selects
 
-drop database clinica;
+
+SELECT endereco.cep, usuario.cep
+FROM endereco
+INNER JOIN usuario
+ON
+endereco.cep = usuario.cep;
+
+SELECT endereco.cep, usuario.cep
+FROM endereco
+LEFT JOIN usuario
+ON
+endereco.cep = usuario.cep;
+SELECT endereco.cep, usuario.cep
+FROM endereco
+RIGHT JOIN usuario
+ON
+endereco.cep = usuario.cep;
+
  
