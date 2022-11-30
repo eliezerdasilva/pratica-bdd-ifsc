@@ -14,14 +14,14 @@ create table cliente(
 );
 
 create table endereco (
-    cep float(8) NOT NULL PRIMARY KEY auto_increment,
+    cep float(8) auto_increment NOT NULL PRIMARY KEY ,
     rua varchar(45) not null,
     bairro varchar(45) not null,
     estado varchar(45) not null
 );
 
 create table fornecedor(
-    cnpj int NOT NULL NULL PRIMARY KEY AUTO_INCREMENT,
+    cnpj float(8) NOT NULL NULL PRIMARY KEY AUTO_INCREMENT,
     e_mail_empresa varchar(45) not null,
     cnpj varchar(14),
     foreign key (endereco) references endereco(cep)
@@ -39,7 +39,7 @@ create table produto(
 create table encomenda(
     id_encomenda int not null primary key auto_increment,
     foreign key (produto) references produto(id_produto),
-    foreign key (cpf) references usuario(cpf)
+    foreign key (cpf) references cliente(cpf)
 );
 
 create table cliente_has_endereco(
@@ -57,7 +57,7 @@ create table fornecedor_has_endereco(
 );
 
 -- inserts
-INSERT INTO usuario (cpf, nome,dataNacimento,email, rg, cep)
+INSERT INTO cliente (cpf, nome,dataNacimento,email, rg, cep)
 VALUES 
 (12345678996,"eliezer","30/02/2003","eliezer.s"," 89574657",13131313),
 (75315986244,"joao","07/03/2015","joao.msm"," 15975348",45687895),
@@ -170,70 +170,119 @@ VALUES
 
 
 -- update
-
-UPDATE usuario
-SET nome = 'bruna'
-WHERE cpf = 12345678996;
-
-UPDATE usuario
-SET nome = 'Zé vaqueiro'
-WHERE cpf = 12345678996;
-
-UPDATE usuario
-SET nome = 'Gabriel'
-WHERE cpf = 12345678996;
-
-UPDATE usuario
-SET nome = 'Valmor'
-WHERE cpf = 12345678996;
+-- cliente
+UPDATE cliente SET nome = 'bruna' WHERE cpf = 12345678996;
+UPDATE cliente SET nome = 'Zé vaqueiro' WHERE cpf = 12345678996;
+UPDATE cliente SET nome = 'Gabriel' WHERE cpf = 12345678996;
+UPDATE cliente SET nome = 'Valmor' WHERE cpf = 12345678996;
+UPDATE cliente SET nome = 'Deodoro' WHERE cpf = 12345678996;
 
 
-UPDATE usuario
-SET nome = 'Deodoro'
-WHERE cpf = 12345678996;
+-- endereco
+UPDATE endereco SET cep = 12345682 WHERE cep = 45687895;
+UPDATE endereco SET cep = 54155454 WHERE cpf = 45642131;
+UPDATE endereco SET cep = 54563485 WHERE cpf = 45646868;
+update endereco SET cep = 85858474 where cpf = 84641456;
+UPDATE endereco SET cep = 84814254 WHERE cpf = 22222222;
 
-UPDATE usuario
-SET nome = 'Jair'
-WHERE cpf = 12345678996;
-
-UPDATE usuario
-SET nome = 'Luis'
-WHERE cpf = 12345678996;
+-- produto
 
 
+UPDATE produto  SET id_produto = 457812 WHERE id_produto = 545482;
+UPDATE produto  SET id_produto = 454852 WHERE id_produto = 646566;
+UPDATE produto  SET id_produto = 354781 WHERE id_produto = 284452;
+UPDATE produto  SET id_produto = 154551 WHERE id_produto = 848455;
+UPDATE produto  SET id_produto = 153155 WHERE id_produto = 486854;
+
+-- encomenda
 
 
+UPDATE encomenda   SET cpf = 75315414854 WHERE cpf = 75315986244;
+UPDATE encomenda  SET cpf =  84584848848 WHERE cpf = 12345678996;
+UPDATE encomenda  SET cpf =  46846848646 WHERE cpf = 45678912365;
+UPDATE encomenda  SET cpf =  13543854348 WHERE cpf = 12386427145;
+UPDATE encomenda  SET cpf =  54534355335 WHERE cpf = 45878225982;
+
+-- cliente endereco
+
+UPDATE cliente_has_endereco  SET n_casa = 515 WHERE n_casa = 52;
+UPDATE cliente_has_endereco  SET n_casa = 464 WHERE n_casa = 46;
+UPDATE cliente_has_endereco  SET n_casa = 6456 WHERE n_casa = 54;
+UPDATE cliente_has_endereco  SET n_casa = 6446 WHERE n_casa = 44;
+UPDATE cliente_has_endereco  SET n_casa = 664 WHERE n_casa = 46;
+
+
+-- delete cliente
 
 DELETE FROM cliente WHERE cpf = 56454354354;
+DELETE FROM cliente WHERE cpf = 45678912365;
+DELETE FROM cliente WHERE cpf = 12386427145;
+DELETE FROM cliente WHERE cpf = 24896357415;
+DELETE FROM cliente WHERE cpf = 78945685443;
+
+-- delete endereco 
 
 DELETE FROM endereco WHERE cep = 45642131;
+DELETE FROM endereco WHERE cep = 22222222;
+DELETE FROM endereco WHERE cep = 56464645;
+DELETE FROM endereco WHERE cep = 89228922;
+DELETE FROM endereco WHERE cep = 89126232;
+
+-- delete produto
 
 DELETE FROM produto WHERE id_produto =231321;
+DELETE FROM produto WHERE id_produto =284452;
+DELETE FROM produto WHERE id_produto =848455;
+DELETE FROM produto WHERE id_produto =486854;
+DELETE FROM produto WHERE id_produto =535321;
+
+-- delete fornecedor 
 
 DELETE FROM fornecedor WHERE cnpj = 13131313;
+DELETE FROM fornecedor WHERE cnpj = 22222222;
+DELETE FROM fornecedor WHERE cnpj = 13165468;
+DELETE FROM fornecedor WHERE cnpj = 26598485;
+DELETE FROM fornecedor WHERE cnpj = 54658436;
+
+-- encomenda
 
 DELETE FROM encomenda WHERE id_encomenda = 5153135;
+DELETE FROM encomenda WHERE id_encomenda = 4566465;
+DELETE FROM encomenda WHERE id_encomenda = 4545454;
+DELETE FROM encomenda WHERE id_encomenda = 5654654;
+DELETE FROM encomenda WHERE id_encomenda = 5798998;
 
 
 
 -- selects
 
 
-SELECT endereco.cep, usuario.cep
+SELECT endereco.cep, cliente.cep
 FROM endereco
-INNER JOIN usuario
+INNER JOIN cliente
 ON
-endereco.cep = usuario.cep;
+endereco.cep = cliente.cep;
 
-SELECT endereco.cep, usuario.cep
-FROM endereco
-LEFT JOIN usuario
+SELECT cliente_has_endereco.cep, cliente.cep
+FROM cliente_has_endereco 
+INNER JOIN cliente
 ON
-endereco.cep = usuario.cep;
-SELECT endereco.cep, usuario.cep
-FROM endereco
-RIGHT JOIN usuario
-ON
-endereco.cep = usuario.cep;
+cliente_has_endereco .cep = cliente.cep;
 
- 
+SELECT fornecedor_has_endereco.cep, endereco.cep
+FROM fornecedor_has_endereco 
+INNER JOIN endereco
+ON
+fornecedor_has_endereco.cep = endereco.cep;
+
+SELECT encomenda.cpf, cliente.cpf
+FROM encomenda
+INNER JOIN cliente
+ON
+encomenda.cpf = cliente.cpf;
+
+SELECT produto.cnpj, fornecedor.cnpj
+FROM produto
+INNER JOIN fornecedor
+ON
+produto.cnpj = fornecedor.cpnj;
