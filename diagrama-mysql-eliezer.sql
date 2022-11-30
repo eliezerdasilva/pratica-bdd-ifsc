@@ -3,41 +3,46 @@ create database clinica;
 use clinica;
 
 
-create table cliente(
-    cpf float(8)AUTO_INCREMENT PRIMARY key not null,
-    nome VARCHAR(100) NOT NULL,
-    dataNascimento Date NOT NULL,
-    email VARCHAR(45) NOT NULL,
-    rg VARCHAR(10) NOT NULL,
-    cep float(8) not null,
-    foreign key (cep) references endereco(cep)
-);
-
 create table endereco (
-    cep float(8) auto_increment NOT NULL PRIMARY KEY ,
+    cep bigint  PRIMARY KEY,
     rua varchar(45) not null,
     bairro varchar(45) not null,
     estado varchar(45) not null
 );
+create table cliente(
+    cpf bigint PRIMARY key,
+    nome VARCHAR(100) NOT NULL,
+    dataNascimento Datetime NOT NULL,
+    email VARCHAR(45) NOT NULL,
+    rg bigint NOT NULL,
+    cep bigint not null,
+    foreign key (cep) references endereco(cep)
+);
+
+
 
 create table fornecedor(
-    cnpj float(8) NOT NULL NULL PRIMARY KEY AUTO_INCREMENT,
+    cnpj bigint PRIMARY KEY,
     e_mail_empresa varchar(45) not null,
-    cnpj varchar(14),
+    endereco bigint not null,
+    nome_funcionario varchar(100) not null,
     foreign key (endereco) references endereco(cep)
 );
 
 create table produto(
-    id_produto int not NULL NULL PRIMARY KEY AUTO_INCREMENT,
+    id_produto float(8)  PRIMARY KEY ,
+    cnpj bigint not null,
     foreign key (cnpj) references fornecedor(cnpj),
     peso_prod float not null,
     formato varchar(45) not null,
-    dataCompra date not null
+    dataCompra datetime not null
  
 );
 
 create table encomenda(
-    id_encomenda int not null primary key auto_increment,
+    id_encomenda float primary key,
+    produto float(8) not null,
+	cpf bigint not null,
     foreign key (produto) references produto(id_produto),
     foreign key (cpf) references cliente(cpf)
 );
@@ -45,30 +50,20 @@ create table encomenda(
 create table cliente_has_endereco(
     foreign key (cpf) references cliente(cpf),
     foreign key (cep) references endereco(cep),
+	cep bigint not null,
+    cpf bigint not null,
     n_casa int not null,
     complemento varchar (150) not null
 );
 
 create table fornecedor_has_endereco(
-    n_empresa int not null,
+	n_empresa int not null,
     complemento varchar (150) not null,
+	cnpj bigint not null,
+    cep bigint not null,
     foreign key (cnpj) references fornecedor(cnpj),
-    foreign key (cep) references endereco(cep)
+    foreign key (cep) references endereco(cep)  
 );
-
--- inserts
-INSERT INTO cliente (cpf, nome,dataNacimento,email, rg, cep)
-VALUES 
-(12345678996,"eliezer","30/02/2003","eliezer.s"," 89574657",13131313),
-(75315986244,"joao","07/03/2015","joao.msm"," 15975348",45687895),
-(45678912365,"maria","06/06/2009","maria.gmail"," 35785215",45642131),
-(12386427145,"bruna","24/07/2005","bruna.teacher"," 486215978",45646868),
-(24896357415,"joana","29/10/1986","joana.ing"," 6842195135",84641456),
-(45878225982,"ana","31/05/1965","ana.hotmail"," 593716456",89126232),
-(46791352845,"vitor","26/11/1968","vitor.ifsc"," 98236571",22222222),
-(78945685443,"enzo","02/09/1998","enzo.kahoot"," 456951753",56464645),
-(48643458435,"xandy","01/02/2013","xandy.ifsc"," 845932714",66666666),
-(56454354354,"antonio","25/03/2011","antonio.dg"," 56239874",89228922);
 
 INSERT INTO endereco (cep, rua, bairro, estado)
 VALUES 
@@ -82,8 +77,6 @@ VALUES
 (56464645,"rua Comunidade São João da Capela", "comunidade do alemão","porto rico"),
 (66666666,"rua Viver é alegria", "Alegria","lemen"),
 (89228922,"rua Silvio santos", "Jequiti","haiti"),
--- para fornecedor
-
 (56469466,"rua Esperança amada", "Jequiti","Uruguai"),
 (44864651,"rua Esperança abalada", "Santos","Uruguai"),
 (98562374,"rua Esperança morta", "Manuel Machado","Uruguai"),
@@ -92,37 +85,68 @@ VALUES
 (64854351,"rua Esperança valida", "Aliança","Uruguai"),
 (52477568,"rua Esperança na sorte", "Brasil","Uruguai"),
 (55783643,"rua Esperança na vida", "Jequiti","Uruguai"),
-(57574836,"rua Esperança", "Jequiti","Uruguai","Paraguai"),
-(58647888,"rua Esperança patriora", "Jequiti","Uruguai");
+(57574836,"rua Esperança", "Uruguai","Paraguai"),
+(58647888,"rua Esperança patriora", "Jequiti","Uruguai"),
+(98562123,"rua Esperança morta", "Manuel Machado","Uruguai"),
+(16431231,"rua Esperança em deus", "Uniao","Uruguai"),
+(54363211,"rua Esperança em ninguem", "Estados","Uruguai"),
+(64312321,"rua Esperança valida", "Aliança","Uruguai"),
+(53123328,"rua Esperança na sorte", "Brasil","Uruguai");
 
+-- para fornecedor
 
-
-INSERT INTO fornecedor (cnpj, e_mail_empresa, nome_funcionario )
+-- inserts
+INSERT INTO cliente (cpf, nome, dataNascimento,email, rg, cep)
 VALUES 
-(13131313,"AmoMeuEmprego.@empregaBrasil","Irineu"),
-(22222222,"AmoDesing.@DesingBrasil","Tonho"),
-(13165468,"AdorodarAula.@AulaBrasil","Liamar"),
-(26598485,"Bminhavida.@BBBrasil","Rafaela"),
-(13548458,"favelaVenceu.@BBBrasil","Calila de Lucas"),
-(54658436,"humorNegro.@BBBrasil","Nego di"),
-(58438545,"oMelhordeTodos.@favelaBrasil","Poze"),
-(36435845,"ReiDoPop.@ReiBrasil","Kevin"),
-(56766894,"adivogadaKevin.@empregaBrasil","Deolane"),
-(21561454,"vivaNordeste.@cactos","Julieta");
+(12345678996,'eliezer','2003-05-05' ,'eliezer.s',89574657,13131313),
+(75315986244,"joao",'2015-02-24',"joao.msm",15975348,45687895),
+(45678912365,"maria",'2002-11-01',"maria.gmail",35785215,45642131),
+(12386427145,"bruna",'2001-09-11',"bruna.teacher",48621578,45646868),
+(24896357415,"joana",'2022-11-30',"joana.ing",68421951,84641456),
+(45878225982,"ana",'2003-12-15',"ana.hotmail",93716456,89126232),
+(46791352845,"vitor",'2005-12-21',"vitor.ifsc",98236571,22222222),
+(78945685443,"enzo",'2034-01-06',"enzo.kahoot",45695175,56464645),
+(48643458435,"xandy",'1999-06-17',"xandy.ifsc",84593274,66666666),
+(56454354354,"antonio",'2014-07-01',"antonio.dg",56239874,89228922),
+
+
+(56454355354,"antonio",'2014-07-01',"antonio.dg",56239874,89228922),
+(56453466354,"antonio",'2014-07-01',"antonio.dg",56239874,89228922),
+(54652464354,"antonio",'2014-07-01',"antonio.dg",56239874,89228922),
+(53210315354,"antonio",'2014-07-01',"antonio.dg",56239874,89228922),
+(53253453354,"antonio",'2014-07-01',"antonio.dg",56239874,89228922);
+
+
+
+
+
+
+INSERT INTO fornecedor (cnpj, e_mail_empresa,endereco, nome_funcionario )
+VALUES 
+(13131313,"AmomeuEmprego.@empregaBrasil",45642131,"Irineu"),
+(22222222,"AmoDesing.@DesingBrasil",56469466,"Tonho"),
+(13165468,"AdorodarAula.@AulaBrasil",22222222,"Liamar"),
+(26598485,"Bminhavida.@BBBrasil",56464645,"Rafaela"),
+(13548458,"favelaVenceu.@BBBrasil",55783643,"Calila de Lucas"),
+(54658436,"humorNegro.@BBBrasil",57574836,"Nego di"),
+(58438545,"omelhordeTodos.@favelaBrasil",89228922,"Poze"),
+(36435845,"ReiDoPop.@ReiBrasil",89126232,"Kevin"),
+(56766894,"adivogadaKevin.@empregaBrasil",44864651,"Deolane"),
+(21561454,"vivaNordeste.@cactos",66666666,"Julieta");
 
 
 INSERT INTO produto (id_produto, cnpj, peso_prod, formato, dataCompra)
-VALUES (231321, 13131313, 24, "quadrado", "85/56/2006"),
-(545482, 13131313, 24, "quadrado", "05/12/2005"),
-(646566, 22222222, 3, "quadrado", "04/10/1996"),
-(284452, 13165468, 4, "quadrado", "09/12/1985"),
-(848455, 26598485, 5, "quadrado", "25/11/1955"),
-(486854, 13548458, 19, "quadrado", "04/56/2006"),
-(535321, 54658436, 5, "retangulo", "29/100/2007"),
-(554582, 58438545, 20, "retangulo", "27/09/2008"),
-(299543, 36435845, 18, "retangulo", "26/08/2007"),
-(953498, 56766894, 09, "retangulo", "23/05/2009"),
-(564545, 21561454, 6, "retangulo", "05/07/2013");
+VALUES (231321, 13131313, 24, "quadrado", '2006-12-06'),
+(545482, 13131313, 24, "quadrado", '2015-06-25'),
+(646566, 22222222, 3, "quadrado", '2016-12-02'),
+(284452, 13165468, 4, "quadrado", '2022-12-13'),
+(848455, 26598485, 5, "quadrado", '2022-12-14'),
+(486854, 13548458, 19, "quadrado", '2022-12-14'),
+(535321, 54658436, 5, "retangulo", '2022-12-15'),
+(554582, 58438545, 20, "retangulo", '2022-09-16'),
+(299543, 36435845, 18, "retangulo", '2022-10-25'),
+(953498, 56766894, 09, "retangulo", '2022-07-25'),
+(564545, 21561454, 6, "retangulo", '2005-02-06');
 
 INSERT INTO encomenda (id_encomenda,produto, cpf)
 VALUES
@@ -152,19 +176,9 @@ VALUES
 (48643458435, 66666666, 646," esquina nos fundo"),
 (56454354354, 89228922, 646, "esquina esquerda");
 
-INSERT INTO fornecedor_has_endereco (n_empresa,complemento,cnpj,cep)
+INSERT INTO fornecedor_has_endereco(n_empresa,complemento,cnpj,cep)
 VALUES
-(80,"Empresa vermelha",13131313,56469466),
-
-(95,"Empresa Cinza",22222222,44864651),
-(80, "Empresa aos fundo",13165468,44864651),
-(50,"Bater palma na casa da frente",26598485,98562374),
-(5564,"",13548458,54364684),
-(156, "Senha para entrar é 2025 ",54658436,64854351),
-(88, " Residencial",58438545,52477568),
-(5451,"se acaso nao estiver ninguem entregar na casa do lado",36435845,55783643),
-(8745, "Cuiddado com o cachorro", 56766894,57574836),
-(6561, "Deixar na caixa ", 45421561454,586478888);
+(6561, "Deixar na caixa ", 13165468,57574836);
 
 
 
@@ -179,66 +193,64 @@ UPDATE cliente SET nome = 'Deodoro' WHERE cpf = 12345678996;
 
 
 -- endereco
-UPDATE endereco SET cep = 12345682 WHERE cep = 45687895;
-UPDATE endereco SET cep = 54155454 WHERE cpf = 45642131;
-UPDATE endereco SET cep = 54563485 WHERE cpf = 45646868;
-update endereco SET cep = 85858474 where cpf = 84641456;
-UPDATE endereco SET cep = 84814254 WHERE cpf = 22222222;
+UPDATE endereco SET rua = "sao joao"  WHERE cep = 45642131;
+UPDATE endereco SET rua = "sao pedro"  WHERE cep = 45687895;
+UPDATE endereco SET rua = "sao luis"  WHERE cep = 54364684;
+UPDATE endereco SET rua = "sao jorge"  WHERE cep = 58647888;
+UPDATE endereco SET rua = "sao mateus"  WHERE cep = 66666666;
 
 -- produto
 
 
-UPDATE produto  SET id_produto = 457812 WHERE id_produto = 545482;
-UPDATE produto  SET id_produto = 454852 WHERE id_produto = 646566;
-UPDATE produto  SET id_produto = 354781 WHERE id_produto = 284452;
-UPDATE produto  SET id_produto = 154551 WHERE id_produto = 848455;
-UPDATE produto  SET id_produto = 153155 WHERE id_produto = 486854;
+UPDATE produto  SET formato = "quadrado" WHERE cnpj = 13165468;
+UPDATE produto  SET formato = "quadrado" WHERE cnpj = 36435845;
+UPDATE produto  SET formato = "quadrado" WHERE cnpj = 58438545;
+UPDATE produto  SET formato = "quadrado" WHERE cnpj = 13131313;
+UPDATE produto  SET formato = "quadrado" WHERE cnpj = 22222222;
 
 -- encomenda
 
 
-UPDATE encomenda   SET cpf = 75315414854 WHERE cpf = 75315986244;
-UPDATE encomenda  SET cpf =  84584848848 WHERE cpf = 12345678996;
-UPDATE encomenda  SET cpf =  46846848646 WHERE cpf = 45678912365;
-UPDATE encomenda  SET cpf =  13543854348 WHERE cpf = 12386427145;
-UPDATE encomenda  SET cpf =  54534355335 WHERE cpf = 45878225982;
+UPDATE encomenda   SET id_encomenda = 7531541 WHERE cpf = 75315986244;
+UPDATE encomenda  SET id_encomenda =  8458484 WHERE cpf = 12345678996;
+UPDATE encomenda  SET id_encomenda =  4684684 WHERE cpf = 45678912365;
+UPDATE encomenda  SET id_encomenda =  1354385 WHERE cpf = 12386427145;
+UPDATE encomenda  SET id_encomenda =  5453435 WHERE cpf = 45878225982;
 
 -- cliente endereco
 
-UPDATE cliente_has_endereco  SET n_casa = 515 WHERE n_casa = 52;
-UPDATE cliente_has_endereco  SET n_casa = 464 WHERE n_casa = 46;
-UPDATE cliente_has_endereco  SET n_casa = 6456 WHERE n_casa = 54;
-UPDATE cliente_has_endereco  SET n_casa = 6446 WHERE n_casa = 44;
-UPDATE cliente_has_endereco  SET n_casa = 664 WHERE n_casa = 46;
+UPDATE cliente_has_endereco  SET n_casa = 515 WHERE cep = 45687895;
+UPDATE cliente_has_endereco  SET n_casa = 464 WHERE cep = 66666666;
+UPDATE cliente_has_endereco  SET n_casa = 6456 WHERE cep = 56469466;
+UPDATE cliente_has_endereco  SET n_casa = 6446 WHERE cep = 45642131;
+UPDATE cliente_has_endereco  SET n_casa = 664 WHERE cep = 52477568;
 
 
 -- delete cliente
 
-DELETE FROM cliente WHERE cpf = 56454354354;
-DELETE FROM cliente WHERE cpf = 45678912365;
-DELETE FROM cliente WHERE cpf = 12386427145;
-DELETE FROM cliente WHERE cpf = 24896357415;
-DELETE FROM cliente WHERE cpf = 78945685443;
+DELETE FROM cliente WHERE cpf= 56454355354;
+DELETE FROM cliente WHERE cpf = 53210315354;
+DELETE FROM cliente WHERE cpf = 56453466354;
+DELETE FROM cliente WHERE cpf = 54652464354;
+DELETE FROM cliente WHERE cpf = 53253453354;
 
 -- delete endereco 
 
-DELETE FROM endereco WHERE cep = 45642131;
-DELETE FROM endereco WHERE cep = 22222222;
-DELETE FROM endereco WHERE cep = 56464645;
-DELETE FROM endereco WHERE cep = 89228922;
-DELETE FROM endereco WHERE cep = 89126232;
+
+
+
+DELETE FROM endereco WHERE cep = 98562123;
+DELETE FROM endereco WHERE cep = 98562374;
 
 -- delete produto
 
-DELETE FROM produto WHERE id_produto =231321;
-DELETE FROM produto WHERE id_produto =284452;
-DELETE FROM produto WHERE id_produto =848455;
-DELETE FROM produto WHERE id_produto =486854;
-DELETE FROM produto WHERE id_produto =535321;
+
+DELETE FROM produto WHERE id_produto =646566;
+DELETE FROM produto WHERE id_produto =953498;
 
 -- delete fornecedor 
 
-DELETE FROM fornecedor WHERE cnpj = 13131313;
+DELETE FROM fornecedor WHERE cnpj = 13151313;
 DELETE FROM fornecedor WHERE cnpj = 22222222;
 DELETE FROM fornecedor WHERE cnpj = 13165468;
 DELETE FROM fornecedor WHERE cnpj = 26598485;
@@ -286,3 +298,4 @@ FROM produto
 INNER JOIN fornecedor
 ON
 produto.cnpj = fornecedor.cpnj;
+
