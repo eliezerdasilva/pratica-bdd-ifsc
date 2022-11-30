@@ -84,14 +84,14 @@ VALUES
 (54364684,"rua Esperança em ninguem", "Estados","Uruguai"),
 (64854351,"rua Esperança valida", "Aliança","Uruguai"),
 (52477568,"rua Esperança na sorte", "Brasil","Uruguai"),
-(55783643,"rua Esperança na vida", "Jequiti","Uruguai"),
+(55783643,"rua Esperança na vida", "Jequiti","Sergipe"),
 (57574836,"rua Esperança", "Uruguai","Paraguai"),
 (58647888,"rua Esperança patriora", "Jequiti","Uruguai"),
-(98562123,"rua Esperança morta", "Manuel Machado","Uruguai"),
-(16431231,"rua Esperança em deus", "Uniao","Uruguai"),
-(54363211,"rua Esperança em ninguem", "Estados","Uruguai"),
-(64312321,"rua Esperança valida", "Aliança","Uruguai"),
-(53123328,"rua Esperança na sorte", "Brasil","Uruguai");
+(98562123,"rua Esperança vivida", "Manuel Machado","Rondonia"),
+(16431231,"rua Esperança de Sao pedro", "Cordilhiera","Fortaleza"),
+(54363211,"rua Esperança de passar de fase", "Londres","Belgica"),
+(64312321,"rua Esperança de passar", "Berlim","pernambuco"),
+(53123328,"rua Esperança de cidadania", "Reino unido","Bahia");
 
 -- para fornecedor
 
@@ -110,11 +110,11 @@ VALUES
 (56454354354,"antonio",'2014-07-01',"antonio.dg",56239874,89228922),
 
 
-(56454355354,"antonio",'2014-07-01',"antonio.dg",56239874,89228922),
-(56453466354,"antonio",'2014-07-01',"antonio.dg",56239874,89228922),
-(54652464354,"antonio",'2014-07-01',"antonio.dg",56239874,89228922),
-(53210315354,"antonio",'2014-07-01',"antonio.dg",56239874,89228922),
-(53253453354,"antonio",'2014-07-01',"antonio.dg",56239874,89228922);
+(56454355354,"Carlos",'2017-11-24',"Carlos.dg",16161512,13131313),
+(56453466354,"Amorim",'2015-12-15',"Amorim.dg",84848488,89228922),
+(54652464354,"Pedro",'2017-05-01',"Pedro.dg",84848587,16434357),
+(53210315354,"Lindomar",'1998-05-21',"Lindomar.dg",94994955,45642131),
+(53253453354,"Liamar",'2005-07-11',"Liamar.dg",48648445,45642131);
 
 
 
@@ -127,12 +127,18 @@ VALUES
 (22222222,"AmoDesing.@DesingBrasil",56469466,"Tonho"),
 (13165468,"AdorodarAula.@AulaBrasil",22222222,"Liamar"),
 (26598485,"Bminhavida.@BBBrasil",56464645,"Rafaela"),
-(13548458,"favelaVenceu.@BBBrasil",55783643,"Calila de Lucas"),
+(13548458,"favelaVenceu.@BBBrasil",55783643,"Camila de Lucas"),
 (54658436,"humorNegro.@BBBrasil",57574836,"Nego di"),
 (58438545,"omelhordeTodos.@favelaBrasil",89228922,"Poze"),
 (36435845,"ReiDoPop.@ReiBrasil",89126232,"Kevin"),
 (56766894,"adivogadaKevin.@empregaBrasil",44864651,"Deolane"),
-(21561454,"vivaNordeste.@cactos",66666666,"Julieta");
+(21561454,"vivaNordeste.@cactos",66666666,"Julieta"),
+
+(21232454,"vivaSul.@cactos",66666666,"Julieta"),
+(22432454,"tchegarotos",84641456,"Zé"),
+(24232454,"AliançapeloBR.@Br",56464645,"Romeu"),
+(64543454,"Marcos@Brasil",55783643,"Marcos"),
+(21624454,"Brina.rss@MyTeacher.com",45642131,"Bruna");
 
 
 INSERT INTO produto (id_produto, cnpj, peso_prod, formato, dataCompra)
@@ -146,7 +152,14 @@ VALUES (231321, 13131313, 24, "quadrado", '2006-12-06'),
 (554582, 58438545, 20, "retangulo", '2022-09-16'),
 (299543, 36435845, 18, "retangulo", '2022-10-25'),
 (953498, 56766894, 09, "retangulo", '2022-07-25'),
-(564545, 21561454, 6, "retangulo", '2005-02-06');
+(564545, 21561454, 6, "retangulo", '2005-02-06'),
+
+
+(865625, 26598485, 5, "quadrado", '2022-12-14'),
+(413554, 13548458, 19, "quadrado", '2022-12-14'),
+(564561, 54658436, 5, "oval", '2022-12-15'),
+(556562, 58438545, 20, "10/50/41 caixa", '2022-09-16'),
+(646543, 36435845, 18, "50/10/42 caixa", '2022-10-25');
 
 INSERT INTO encomenda (id_encomenda,produto, cpf)
 VALUES
@@ -241,20 +254,28 @@ DELETE FROM cliente WHERE cpf = 53253453354;
 
 DELETE FROM endereco WHERE cep = 98562123;
 DELETE FROM endereco WHERE cep = 98562374;
+DELETE FROM endereco WHERE cep = 53123328;
+DELETE FROM endereco WHERE cep = 54363211;
+DELETE FROM endereco WHERE cep = 54364684;
+
 
 -- delete produto
 
 
-DELETE FROM produto WHERE id_produto =646566;
+
 DELETE FROM produto WHERE id_produto =953498;
+DELETE FROM produto WHERE id_produto =865625;
+DELETE FROM produto WHERE id_produto =413554;
+DELETE FROM produto WHERE id_produto =556562;
+DELETE FROM produto WHERE id_produto =646543;
 
 -- delete fornecedor 
 
 DELETE FROM fornecedor WHERE cnpj = 13151313;
-DELETE FROM fornecedor WHERE cnpj = 22222222;
-DELETE FROM fornecedor WHERE cnpj = 13165468;
-DELETE FROM fornecedor WHERE cnpj = 26598485;
-DELETE FROM fornecedor WHERE cnpj = 54658436;
+DELETE FROM fornecedor WHERE cnpj = 21232454;
+DELETE FROM fornecedor WHERE cnpj = 22432454;
+DELETE FROM fornecedor WHERE cnpj = 24232454;
+DELETE FROM fornecedor WHERE cnpj = 21624454;
 
 -- encomenda
 
@@ -293,9 +314,11 @@ INNER JOIN cliente
 ON
 encomenda.cpf = cliente.cpf;
 
-SELECT produto.cnpj, fornecedor.cnpj
+
+SELECT produto.id_produto, encomenda.produto
 FROM produto
-INNER JOIN fornecedor
+INNER JOIN encomenda
 ON
-produto.cnpj = fornecedor.cpnj;
+produto.id_produto = encomenda.produto;
+
 
