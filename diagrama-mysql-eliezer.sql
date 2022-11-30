@@ -1,21 +1,20 @@
-
-
+drop database clinica;
 create database clinica;
 use clinica;
 
-DROP TABLE IF EXISTS cliente;
 
 create table cliente(
-    cpf int(12) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cpf float(8)AUTO_INCREMENT PRIMARY key not null,
     nome VARCHAR(100) NOT NULL,
     dataNascimento Date NOT NULL,
     email VARCHAR(45) NOT NULL,
     rg VARCHAR(10) NOT NULL,
+    cep float(8) not null,
     foreign key (cep) references endereco(cep)
 );
 
-create table endereco(
-    cep INT(12) NOT NULL NULL PRIMARY KEY AUTO_INCREMENT,
+create table endereco (
+    cep float(8) NOT NULL PRIMARY KEY auto_increment,
     rua varchar(45) not null,
     bairro varchar(45) not null,
     estado varchar(45) not null
