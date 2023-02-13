@@ -16,6 +16,7 @@ public class Program {
 		SellerDao sellerDao = DaoFactory.createSellerDao();
 	
 		
+			System.out.println("Rodando seller findbyId");
 			Seller seller = new Seller();
 			seller = sellerDao.findById(3);
 			System.out.println(seller);
