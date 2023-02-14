@@ -38,6 +38,11 @@ public class Program {
 			Seller sel = new Seller(null,"ELi","ELi@gmail.com",new Date(), 400.0, department);
 			sellerDao.insert(sel);
 			System.out.println(sel.getId());
+			
+			seller = sellerDao.findById(1);
+			seller.setName("MArtha waine");
+			sellerDao.update(seller);
+			System.out.println("Update completed");
 	}
 
 }
