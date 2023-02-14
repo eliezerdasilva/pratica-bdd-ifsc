@@ -102,7 +102,19 @@ private Connection conn;
 
 	@Override
 	public void deleById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"DELETE FROM seller WHERE Id = ? ");
+	
+			st.setInt(1, id);
+			st.executeUpdate();
+		}catch(SQLException e) {
+			throw new DBException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 		
 	}
 
